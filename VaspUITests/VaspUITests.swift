@@ -22,13 +22,36 @@ class VaspUITests: XCTestCase {
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+    func testFlow() {
 
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let app = XCUIApplication()
+        let fromTextField = app.textFields["IATA Origem"]
+        fromTextField.tap()
+        fromTextField.typeText("CGH")
+
+        let toTextField = app.textFields["IATA Destino"]
+        toTextField.tap()
+        toTextField.typeText("CNF")
+
+        let departureDate = app.textFields["Data da ida"]
+        departureDate.tap()
+        departureDate.typeText("09102019")
+
+        let returnDate = app.textFields["Data da volta"]
+        returnDate.tap()
+        returnDate.typeText("10102019")
+
+        let passengers = app.textFields["Quantidade de passageiros"]
+        passengers.tap()
+        passengers.typeText("1")
+        fromTextField.tap()
+
+        let btn = app.buttons["Pesquisar passagens"]
+        btn.tap()
+
+        sleep(5)
+
+        XCTAssertTrue(app.tables.firstMatch.exists)
     }
 
 }

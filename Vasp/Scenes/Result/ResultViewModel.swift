@@ -1,3 +1,0 @@
-import UIKit
-
-struct ResultViewModel {}

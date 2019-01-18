@@ -1,12 +1,12 @@
 import UIKit
 
-protocol SearchPresenterInput: SearchInteractorOutput {
-
-}
+protocol SearchPresenterInput: SearchInteractorOutput {}
 
 protocol SearchPresenterOutput: class {
 
-    func displaySomething(viewModel: SearchViewModel)
+    func displayButton()
+    func hideButton()
+    func displayResult(search: SearchModel)
 }
 
 final class SearchPresenter {
@@ -22,10 +22,17 @@ final class SearchPresenter {
 // MARK: - SearchPresenterInput
 extension SearchPresenter: SearchPresenterInput {
 
-    // MARK: - Presentation logic
-    func presentSomething() {
-        // TODO: Format the response from the Interactor and pass the result back to the View Controller
-        let viewModel = SearchViewModel()
-        output?.displaySomething(viewModel: viewModel)
+    func presentSearch(search: SearchModel) {
+        
+        if search.isComplete() {
+            output?.displayButton()
+        } else {
+            output?.hideButton()
+        }
     }
+
+    func presentResult(search: SearchModel) {
+        output?.displayResult(search: search)
+    }
+
 }

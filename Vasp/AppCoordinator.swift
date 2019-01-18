@@ -27,9 +27,10 @@ class AppCoordinator: NSObject {
 
     // MARK: Internal Methods
     internal func displayResultViewController(search: SearchModel) {
+        guard let navigationController = window?.rootViewController as? UINavigationController else { return }
 
-        let resultViewController = ResultViewController(search: search, title: "Title")
-        window?.rootViewController?.navigationController?.pushViewController(resultViewController, animated: true)
+        let resultViewController = ResultViewController(search: search, title: R.string.resultViewControllerTitle)
+        navigationController.pushViewController(resultViewController, animated: true)
     }
 }
 

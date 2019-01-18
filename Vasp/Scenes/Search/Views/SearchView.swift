@@ -1,14 +1,31 @@
 import UIKit
 
+protocol SearchViewDelegate: class {
+    func searchView(view: SearchView, didUpdateFrom airport: String)
+    func searchView(view: SearchView, didUpdateTo airport: String)
+    func searchView(view: SearchView, didUpdateDepart date: String)
+    func searchView(view: SearchView, didUpdateReturn date: String)
+    func searchView(view: SearchView, didUpdateNumberOfPassengers passengers: String)
+    func searchView(view: SearchView, didTapButton button: UIButton)
+}
+
 class SearchView: BaseView {
 
-    private let fromTextField: InputTextField = {
+    weak var delegate: SearchViewDelegate?
+
+    let fromTextField: InputTextField = {
         let txtField = InputTextField()
+        txtField.keyboardType = .asciiCapable
+        txtField.autocapitalizationType = .allCharacters
+        txtField.placeholder = R.string.fromPlaceholder
         return txtField
     }()
 
-    private let toTextField: InputTextField = {
+    let toTextField: InputTextField = {
         let txtField = InputTextField()
+        txtField.keyboardType = .asciiCapable
+        txtField.autocapitalizationType = .allCharacters
+        txtField.placeholder = R.string.toPlaceholder
         return txtField
     }()
 
@@ -20,22 +37,28 @@ class SearchView: BaseView {
         return view
     }()
 
-    private let dateFromTextField: InputTextField = {
+    let departTextField: InputTextField = {
         let txtField = InputTextField()
+        txtField.keyboardType = .numberPad
+        txtField.placeholder = R.string.departPlaceholder
         return txtField
     }()
 
-    private let dateToTextField: InputTextField = {
+    let returnTextField: InputTextField = {
         let txtField = InputTextField()
+        txtField.keyboardType = .numberPad
+        txtField.placeholder = R.string.returnPlaceholder
         return txtField
     }()
 
-    private let numberOfPassengersTextField: InputTextField = {
+    let numberOfPassengersTextField: InputTextField = {
         let txtField = InputTextField()
+        txtField.keyboardType = .numberPad
+        txtField.placeholder = R.string.passengersPlaceholder
         return txtField
     }()
 
-    private let searchTicketsButton: UIButton = {
+    let searchTicketsButton: UIButton = {
         let btn = UIButton()
         btn.backgroundColor = R.color.c_26_188_156
         btn.setTitle(R.string.btnSearchTicketsTitle, for: .normal)
@@ -51,17 +74,23 @@ class SearchView: BaseView {
         addSubview(fromTextField)
         addSubview(toTextField)
         addSubview(stackView)
-        stackView.addArrangedSubview(dateToTextField)
-        stackView.addArrangedSubview(dateFromTextField)
+        stackView.addArrangedSubview(departTextField)
+        stackView.addArrangedSubview(returnTextField)
         addSubview(numberOfPassengersTextField)
         addSubview(searchTicketsButton)
 
         //Set delegate
         fromTextField.delegate = self
         toTextField.delegate = self
-        dateToTextField.delegate = self
-        dateFromTextField.delegate = self
+        returnTextField.delegate = self
+        departTextField.delegate = self
         numberOfPassengersTextField.delegate = self
+
+        //Set button target
+        searchTicketsButton.addTarget(self, action: #selector(didTapSearchTicketsButton(button:)), for: .touchUpInside)
+
+        //set defaut value
+        setEnabled(enabled: false)
     }
 
     override func setupConstraints() {
@@ -108,9 +137,9 @@ class SearchView: BaseView {
             enableInsets: false
         )
 
-        dateToTextField.anchor(
-            top: stackView.topAnchor,
-            left: stackView.leftAnchor,
+        returnTextField.anchor(
+            top: nil,
+            left: nil,
             bottom: nil,
             right: nil,
             paddingTop: 0,
@@ -122,11 +151,11 @@ class SearchView: BaseView {
             enableInsets: false
         )
 
-        dateFromTextField.anchor(
-            top: stackView.topAnchor,
+        departTextField.anchor(
+            top: nil,
             left: nil,
             bottom: nil,
-            right: stackView.rightAnchor,
+            right: nil,
             paddingTop: 0,
             paddingLeft: 0,
             paddingBottom: 0,
@@ -163,7 +192,19 @@ class SearchView: BaseView {
             height: 54,
             enableInsets: false
         )
+    }
 
+    // MARK: Public Methods
+    func setEnabled(enabled: Bool) {
+        searchTicketsButton.isEnabled = enabled
+        UIView.animate(withDuration: 0.3) {
+            self.searchTicketsButton.alpha = enabled ? 1 : 0.5
+        }
+    }
+
+    // MARK: Private Methods (Target Buttons)
+    @objc func didTapSearchTicketsButton(button: UIButton) {
+        delegate?.searchView(view: self, didTapButton: button)
     }
 }
 
@@ -171,6 +212,52 @@ extension SearchView: UITextFieldDelegate {
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 
+        if string.count > 0 {
+
+            guard let text = textField.text else { return true }
+
+            switch textField {
+            case fromTextField,
+                 toTextField:
+
+                return text.count <= 2
+
+            case departTextField,
+                 returnTextField:
+
+                if text.count == 2 || text.count == 5 {
+                    textField.text = "\(text)/"
+                }
+                return text.count < 10
+
+            case numberOfPassengersTextField:
+
+                return true
+
+            default:
+                return true
+            }
+        }
         return true
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+
+        guard let text = textField.text else { return }
+
+        switch textField {
+        case fromTextField:
+            delegate?.searchView(view: self, didUpdateFrom: text)
+        case toTextField:
+            delegate?.searchView(view: self, didUpdateTo: text)
+        case departTextField:
+            delegate?.searchView(view: self, didUpdateDepart: text)
+        case returnTextField:
+            delegate?.searchView(view: self, didUpdateReturn: text)
+        case numberOfPassengersTextField:
+            delegate?.searchView(view: self, didUpdateNumberOfPassengers: text)
+        default:
+            break
+        }
     }
 }

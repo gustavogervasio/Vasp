@@ -1,0 +1,89 @@
+{
+    "data_length": 2,
+    "rounds": [
+        {
+            "round_1": {
+                "date": "10/10/2019",
+                "hour": "10:10",
+                "duration": "1H10",
+                "from_airport": "CGH",
+                "to_airport": "CNF",
+                "airline_company": "Gol",
+                "airline_number": "G1010"
+            },
+            "round_2": {
+                "date": "15/10/2019",
+                "hour": "15:30",
+                "duration": "1H10",
+                "from_airport": "CGH",
+                "to_airport": "CNF",
+                "airline_company": "Gol",
+                "airline_number": "G1511"
+            },
+            "price": 310.00
+        },
+        {
+            "round_1": {
+                "date": "10/10/2019",
+                "hour": "10:10",
+                "duration": "1H10",
+                "from_airport": "CGH",
+                "to_airport": "CNF",
+                "airline_company": "Gol",
+                "airline_number": "G1010"
+            },
+            "round_2": {
+                "date": "15/10/2019",
+                "hour": "15:30",
+                "duration": "1H10",
+                "from_airport": "CGH",
+                "to_airport": "CNF",
+                "airline_company": "Gol",
+                "airline_number": "G1511"
+            },
+            "price": 120.00
+        },
+        {
+            "round_1": {
+                "date": "10/10/2019",
+                "hour": "10:10",
+                "duration": "1H10",
+                "from_airport": "CGH",
+                "to_airport": "CNF",
+                "airline_company": "Gol",
+                "airline_number": "G1010"
+            },
+            "round_2": {
+                "date": "15/10/2019",
+                "hour": "15:30",
+                "duration": "1H10",
+                "from_airport": "CGH",
+                "to_airport": "CNF",
+                "airline_company": "Gol",
+                "airline_number": "G1511"
+            },
+            "price": 440.00
+        },
+        {
+            "round_1": {
+                "date": "10/10/2019",
+                "hour": "10:10",
+                "duration": "1H10",
+                "from_airport": "CGH",
+                "to_airport": "CNF",
+                "airline_company": "LATAM",
+                "airline_number": "JJ1010"
+            },
+            "round_2": {
+                "date": "15/10/2019",
+                "hour": "12:30",
+                "duration": "1H10",
+                "from_airport": "CGH",
+                "to_airport": "CNF",
+                "airline_company": "LATAM",
+                "airline_number": "JJ1011"
+            },
+            "price": 110.00
+        }
+    ]
+}

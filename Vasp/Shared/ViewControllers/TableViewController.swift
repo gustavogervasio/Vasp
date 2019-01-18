@@ -4,8 +4,10 @@ class TableViewController: UITableViewController {
 
     // # MARK Init
     init(title: String) {
-        super.init(style: .grouped)
+        super.init(style: .plain)
         self.title = title
+        self.tableView.separatorStyle = .none
+        self.tableView.backgroundColor = UIColor.groupTableViewBackground
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -17,11 +19,5 @@ class TableViewController: UITableViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    }
-
-    // MARK: TableView
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
