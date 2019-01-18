@@ -1,11 +1,3 @@
-//
-//  VaspUITests.swift
-//  VaspUITests
-//
-//  Created by Gustavo Gervásio on 1/15/19.
-//  Copyright © 2019 Gustavo Gervásio. All rights reserved.
-//
-
 import XCTest
 
 class VaspUITests: XCTestCase {
